@@ -2,7 +2,8 @@
 
 @section('content')
 
-
+<div class="row">
+    <div class="col-xs-12 col-sm-offset-2 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
     
 <h1>タスク一覧</h1>
 
@@ -28,3 +29,4 @@
    {!! link_to_route('tasks.create', '新規タスクの投稿', null, ['class' => 'btn btn-primary']) !!}
 
 @endsection
+</div></div>
