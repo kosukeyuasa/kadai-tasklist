@@ -14,11 +14,6 @@ class TasksController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all();
-
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
          $data = [];
         if (\Auth::check()) {
             $user = \Auth::user();
@@ -32,7 +27,7 @@ class TasksController extends Controller
             return view('users.show', $data);
         }else {
             return view('welcome');
-        }
+}
     }
 
     
