@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Task; 
 
+use App\Http\Requests;
+
+use App\Http\Controllers\Controller;
+
 class TasksController extends Controller
 {
     public function index()
@@ -15,8 +19,23 @@ class TasksController extends Controller
         return view('tasks.index', [
             'tasks' => $tasks,
         ]);
+         $data = [];
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+            $data += $this->counts($user);
+            return view('users.show', $data);
+        }else {
+            return view('welcome');
+        }
     }
 
+    
     public function show($id)
     {
         $task = Task::find($id);
@@ -42,9 +61,14 @@ class TasksController extends Controller
         ]);
 
         $task = new Task;
+        $task->user_id = \Auth::user()->id;
         $task->status = $request->status; 
         $task->content = $request->content;
         $task->save();
+        $request->user()->tasks()->create([
+            'content' => $request->content,
+        ]);
+
 
         return redirect('/');
     }
@@ -71,9 +95,10 @@ class TasksController extends Controller
      public function destroy($id)
     {
         $task = Task::find($id);
+        if (\Auth::user()->id === $task->user_id) {
         $task->delete();
-
-        return redirect('/');
+}
+        return redirect()->back();
     }
 
 

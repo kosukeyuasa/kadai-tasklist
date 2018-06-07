@@ -16,10 +16,16 @@
         </aside>
         <div class="col-xs-8">
             <ul class="nav nav-tabs nav-justified">
-                <li><a href="#">TimeLine</a></li>
+                <li>role="presentation" class="{{ Request::is('users/' . $user->id) ? 'active' : '' }}"><a href="{{ route('users.show', ['id' => $user->id]) }}">TimeLine <span class="badge">{{ $count_tasks }}</span></a></li>
                 <li><a href="#">Followings</a></li>
                 <li><a href="#">Followers</a></li>
             </ul>
+             @if (Auth::user()->id == $user->id)
+                  {!! Form::open(['route' => 'tasks.store']) !!}
+                      <div class="form-group">
+                          {!! Form::textarea('content', old('content'), ['class' => 'form-control', 'rows' => '2']) !!}
+                          {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+                      </div>
         </div>
 
  <h1>id = {{ $task->id }} のタスク詳細ページ</h1>
@@ -45,7 +51,10 @@
     {!! Form::model($task, ['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
         {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
-
+@endif
+@if (count($tasks) > 0)
+                @include('tasks.tasks', ['tasks' => $tasks])
+            @endif
 
 @endsection
 </div></div>
