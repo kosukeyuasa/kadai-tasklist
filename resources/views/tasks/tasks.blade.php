@@ -10,13 +10,17 @@
                 {!! link_to_route('users.show', $user->name, ['id' => $user->id]) !!} <span class="text-muted">posted at {{ $task->created_at }}</span>
             </div>
             <div>
-                <p>{!! nl2br(e($task->content)) !!}</p>
+                <p>Task:{!! nl2br(e($task->content)) !!}</p>
+                <p>Status:{!! nl2br(e($task->status)) !!}</p>
             </div>
             <div>
-                @if (Auth::user()->id == $micropost->user_id)
+                @if (Auth::user()->id == $task->user_id)
                     {!! Form::open(['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
-                        {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
-                    {!! Form::close() !!}
+                    {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
+                     {!! Form::close() !!}
+                  
+                   {!! link_to_route('tasks.edit', 'Edit', ['id' => $task->id], ['class' => 'btn btn-info']) !!}
+
                 @endif
             </div>
         </div>
