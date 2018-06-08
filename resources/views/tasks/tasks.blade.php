@@ -15,11 +15,12 @@
             </div>
             <div>
                 @if (Auth::user()->id == $task->user_id)
+                    {!! link_to_route('tasks.edit', 'Edit', ['id' => $task->id], ['class' => 'btn btn-info btn-xs']) !!}
                     {!! Form::open(['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) !!}
                     {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-xs']) !!}
-                     {!! Form::close() !!}
+                    {!! Form::close() !!}
                   
-                   {!! link_to_route('tasks.edit', 'Edit', ['id' => $task->id], ['class' => 'btn btn-info']) !!}
+                   
 
                 @endif
             </div>
